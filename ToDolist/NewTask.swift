@@ -13,6 +13,8 @@ struct NewTask: View {
     @State private var newTask = ""
     @State private var dueDate = Date.now
     @State private var dueTime = Date.now
+    @State private var isTime = false
+    
     
     var body: some View {
         NavigationStack {
@@ -23,8 +25,11 @@ struct NewTask: View {
                 Section("Due date") {
                     DatePicker("", selection: $dueDate, displayedComponents: .date )
                         .labelsHidden()
-                    DatePicker("", selection: $dueTime, displayedComponents: .hourAndMinute)
-                        .labelsHidden()
+                    Toggle("Set a time", isOn: $isTime)
+                    if isTime {
+                        DatePicker("", selection: $dueTime, displayedComponents: .hourAndMinute)
+                            .labelsHidden()
+                    }
                 }
                 Section("Add to List") {
                     

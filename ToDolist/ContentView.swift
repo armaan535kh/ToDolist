@@ -7,17 +7,43 @@
 
 import SwiftUI
 
+
+
 struct ContentView: View {
+  
+    @State private var rotationDegrees = 0.0
+    @State private var showingSheet = false
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            Spacer()
+            HStack {
+                Button(action: {
+                    showingSheet.toggle()
+                    withAnimation{
+                        
+                        rotationDegrees += 360
+                    }
+                }) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                        .padding(.all, 5)
+                        .background(Color.blue)
+                        .cornerRadius(50)
+                                                .rotationEffect(.degrees(rotationDegrees))
+                    
+                }
+                .sheet(isPresented: $showingSheet) {
+                    NewTask()
+                }
+            }
+            .navigationTitle("To Do List")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .padding()
+        
     }
 }
+
 
 #Preview {
     ContentView()

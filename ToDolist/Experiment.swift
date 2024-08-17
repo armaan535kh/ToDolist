@@ -7,10 +7,24 @@
 
 import SwiftUI
 
+
+
+
 struct Experiment: View {
+    @State private var showingSheet = false
+  
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button("Showing sheet") {
+            showingSheet.toggle()
+        }
+        .sheet(isPresented: $showingSheet) {
+            NewTask()
+        }
+        
+       
     }
+    
 }
 
 #Preview {
