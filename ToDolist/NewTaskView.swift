@@ -6,8 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 struct NewTask: View {
+    
+    
+    @Environment(\.modelContext) var context
+    @Environment(\.dismiss) private var dismiss
     let listOfWork = ["Default","Personal", "Shopping", "WishList", "Work"]
     @State private var selectedList = "Default"
     @State private var newTask = ""
@@ -42,6 +48,20 @@ struct NewTask: View {
             }
             .navigationTitle("New Task")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button("Cancel") {dismiss() }
+                }
+                
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button("Save") {
+                        let prospect = Prospect(task: newTask, date: dueDate, time: dueTime, lists: selectedList)
+                        context.insert(prospect)
+                        
+                        dismiss()
+                    }
+                }
+            }
         }
     }
 }

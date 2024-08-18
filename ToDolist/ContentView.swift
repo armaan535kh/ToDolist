@@ -6,15 +6,37 @@
 //
 
 import SwiftUI
+import SwiftData
 
 
 
 struct ContentView: View {
+    
+    @Query(sort: \Prospect.date) var prospects: [Prospect]
   
     @State private var rotationDegrees = 0.0
     @State private var showingSheet = false
     var body: some View {
         NavigationStack {
+            List {
+                VStack(alignment: .leading) {
+                    ForEach(prospects) { prospect in
+                        VStack(alignment: .leading) {
+                            Text(prospect.task)
+                                .font(.headline)
+                            Text("Due date: \(prospect.date.formatted(date: .abbreviated, time: .omitted))")
+                            Text("Time: \(prospect.time.formatted(date: .omitted, time: .shortened))")
+                            Text("List: \(prospect.lists)")
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        .shadow(radius: 2)
+                    }
+                }
+                }
+            }
+           
             Spacer()
             HStack {
                 Button(action: {
@@ -37,12 +59,12 @@ struct ContentView: View {
                     NewTask()
                 }
             }
-            .navigationTitle("To Do List")
+           .navigationTitle("To Do List")
             .navigationBarTitleDisplayMode(.inline)
         }
         
     }
-}
+
 
 
 #Preview {
